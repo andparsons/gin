@@ -33,7 +33,7 @@ class Config implements ConfigInterface, ArrayAccess
      *
      * @return bool
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         return isset($this->items[$key]);
     }
@@ -46,7 +46,7 @@ class Config implements ConfigInterface, ArrayAccess
      *
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get(string $key, $default = null)
     {
         if ( ! isset($this->items[$key])) {
             return $default;
@@ -70,6 +70,8 @@ class Config implements ConfigInterface, ArrayAccess
         foreach ($keys as $key => $value) {
             $this->items[$key] = apply_filters("tonik/gin/config/set/{$key}", $value);
         }
+
+        return;
     }
 
     /**
@@ -77,7 +79,7 @@ class Config implements ConfigInterface, ArrayAccess
      *
      * @return array
      */
-    public function all()
+    public function all(): array
     {
         return $this->items;
     }
@@ -117,6 +119,8 @@ class Config implements ConfigInterface, ArrayAccess
     public function offsetSet($key, $value)
     {
         $this->set($key, $value);
+
+        return;
     }
 
     /**
@@ -129,5 +133,7 @@ class Config implements ConfigInterface, ArrayAccess
     public function offsetUnset($key)
     {
         $this->set($key, null);
+
+        return;
     }
 }

@@ -10,14 +10,14 @@ class Autoloader
     /**
      * Theme config instance.
      *
-     * @var \Tonik\Gin\Contract\ConfigInterface
+     * @var ConfigInterface
      */
     protected $config;
 
     /**
      * Construct autoloader.
      *
-     * @param \Tonik\Gin\Contract\ConfigInterface $config
+     * @param ConfigInterface $config
      */
     public function __construct(ConfigInterface $config)
     {
@@ -34,17 +34,19 @@ class Autoloader
     {
         do_action('tonik/gin/autoloader/before_load');
 
-			$this->load();
+        $this->load();
 
-		do_action('tonik/gin/autoloader/after_load');
+        do_action('tonik/gin/autoloader/after_load');
+
+        return;
     }
 
-	/**
-	 * Localize and autoloads files.
-	 *
-	 * @return void
+    /**
+     * Localize and autoloads files.
+     *
+     * @return void
      * @throws \Tonik\Gin\Foundation\Exception\FileNotFoundException
-	 */
+     */
     public function load()
     {
         foreach ($this->config['autoload'] as $file) {
@@ -52,6 +54,8 @@ class Autoloader
                 throw new FileNotFoundException("Autoloaded file [{$this->getPath($file)}] cannot be found. Please, check your autoloaded entries in `config/app.php` file.");
             }
         }
+
+        return;
     }
 
     /**
@@ -61,7 +65,7 @@ class Autoloader
      *
      * @return string
      */
-    public function getPath($file)
+    public function getPath(string $file): string
     {
         $file = $this->getRelativePath($file);
 
@@ -75,7 +79,7 @@ class Autoloader
      *
      * @return string
      */
-    public function getRelativePath($file)
+    public function getRelativePath(string $file): string
     {
         return $this->config['directories']['app'] . '/' . $file;
     }

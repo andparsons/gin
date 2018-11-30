@@ -37,7 +37,7 @@ class Theme extends Singleton implements ArrayAccess
      *
      * @return Theme
      */
-    public function bind($key, Closure $service)
+    public function bind(string $key, Closure $service): Theme
     {
         $this->services[$key] = $service;
 
@@ -52,7 +52,7 @@ class Theme extends Singleton implements ArrayAccess
      *
      * @return Theme
      */
-    public function factory($key, Closure $factory)
+    public function factory(string $key, Closure $factory): Theme
     {
         $this->factories[$key] = $factory;
 
@@ -71,16 +71,16 @@ class Theme extends Singleton implements ArrayAccess
         return call_user_func_array($abstract, [$this, $parameters]);
     }
 
-	/**
-	 * Resolve service form container.
-	 *
-	 * @param  string $key
-	 * @param  array $parameters
+    /**
+     * Resolve service form container.
      *
-	 * @return mixed
+     * @param  string $key
+     * @param  array $parameters
+     *
+     * @return mixed
      * @throws \Tonik\Gin\Foundation\Exception\BindingResolutionException
-	 */
-    public function get($key, array $parameters = [])
+     */
+    public function get(string $key, array $parameters = [])
     {
         // If service is a factory, we should always
         // return new instance of the service.
@@ -110,7 +110,7 @@ class Theme extends Singleton implements ArrayAccess
      *
      * @return bool
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         return isset($this->factories[$key]) || isset($this->services[$key]);
     }
@@ -122,9 +122,11 @@ class Theme extends Singleton implements ArrayAccess
      *
      * @return void
      */
-    public function forget($key)
+    public function forget(string $key)
     {
         unset($this->factories[$key], $this->services[$key]);
+
+        return;
     }
 
     /**
@@ -137,18 +139,18 @@ class Theme extends Singleton implements ArrayAccess
      */
     public function offsetGet($key)
     {
-			return $this->get($key);
-	}
+        return $this->get($key);
+    }
 
-	/**
-	 * Sets a service.
-	 *
-	 * @param string $key
-	 * @param Closure $service
+    /**
+     * Sets a service.
      *
-	 * @return void
+     * @param string $key
+     * @param Closure $service
+     *
+     * @return void
      * @throws \Tonik\Gin\Foundation\Exception\BindingResolutionException
-	 */
+     */
     public function offsetSet($key, $service)
     {
         if ( ! is_callable($service)) {
@@ -156,6 +158,8 @@ class Theme extends Singleton implements ArrayAccess
         }
 
         $this->bind($key, $service);
+
+        return;
     }
 
     /**
@@ -179,6 +183,8 @@ class Theme extends Singleton implements ArrayAccess
      */
     public function offsetUnset($key)
     {
-        return $this->forget($key);
+        $this->forget($key);
+
+        return;
     }
 }

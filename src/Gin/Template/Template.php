@@ -10,7 +10,7 @@ class Template
     /**
      * Theme config instance.
      *
-     * @var \Tonik\Gin\Contract\ConfigInterface
+     * @var ConfigInterface
      */
     protected $config;
 
@@ -24,7 +24,7 @@ class Template
     /**
      * Construct template.
      *
-     * @param \Tonik\Gin\Contract\ConfigInterface $config
+     * @param ConfigInterface $config
      */
     public function __construct(ConfigInterface $config)
     {
@@ -72,10 +72,14 @@ class Template
         // Use first template name, if template
         // file is an array, but is not named.
         if (is_array($this->file) && isset($this->file[0])) {
-            return do_action("get_template_part_{$this->file[0]}", $this->file[0], null);
+            do_action("get_template_part_{$this->file[0]}", $this->file[0], null);
+
+            return;
         }
 
         do_action("get_template_part_{$this->file}", $this->file, null);
+
+        return;
     }
 
     /**
@@ -83,7 +87,7 @@ class Template
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         $directory = $this->config['paths']['directory'];
 
@@ -95,7 +99,7 @@ class Template
      *
      * @return string
      */
-    public function getRelativePath()
+    public function getRelativePath(): string
     {
         $templates = $this->config['directories']['templates'];
 
@@ -107,11 +111,11 @@ class Template
     /**
      * Gets template name.
      *
-	 * @param string $extension
-	 *
+     * @param string $extension
+     *
      * @return string
      */
-    public function getFilename($extension = '.php')
+    public function getFilename(string $extension = '.php'): string
     {
         // If template is named,
         // return joined template names.
@@ -129,11 +133,11 @@ class Template
     }
 
     /**
-     * Checks if temlate has variant name.
+     * Checks if template has variant name.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isNamed()
+    public function isNamed(): bool
     {
         // If file is not array, then template
         // is not named for sure.
@@ -141,7 +145,7 @@ class Template
             return false;
         }
 
-        // Return false if template is named, but name 
+        // Return false if template is named, but name
         // is invalid. A valid name should be:
         if (
             isset($this->file[1]) && is_bool($this->file[1]) // should be set and not be a boolean
@@ -161,7 +165,7 @@ class Template
      *
      * @return self
      */
-    public function setFile($file)
+    public function setFile(string $file): self
     {
         $this->file = $file;
 

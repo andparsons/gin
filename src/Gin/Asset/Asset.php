@@ -10,7 +10,7 @@ class Asset
     /**
      * Theme config instance.
      *
-     * @var \Tonik\Gin\Contract\ConfigInterface
+     * @var ConfigInterface
      */
     protected $config;
 
@@ -24,7 +24,7 @@ class Asset
     /**
      * Construct asset.
      *
-     * @param \Tonik\Gin\Contract\ConfigInterface $config
+     * @param ConfigInterface $config
      */
     public function __construct(ConfigInterface $config)
     {
@@ -37,7 +37,7 @@ class Asset
      * @return string
      * @throws \Tonik\Gin\Foundation\Exception\FileNotFoundException
      */
-    public function getUri()
+    public function getUri(): string
     {
         if ($this->fileExists($file = $this->getPublicPath())) {
             return $this->getPublicUri();
@@ -52,7 +52,7 @@ class Asset
      * @return string
      * @throws \Tonik\Gin\Foundation\Exception\FileNotFoundException
      */
-    public function getPath()
+    public function getPath(): string
     {
         if ($this->fileExists($file = $this->getPublicPath())) {
             return $file;
@@ -66,7 +66,7 @@ class Asset
      *
      * @return string
      */
-    public function getPublicUri()
+    public function getPublicUri(): string
     {
         $uri = $this->config['paths']['uri'];
 
@@ -78,7 +78,7 @@ class Asset
      *
      * @return string
      */
-    public function getPublicPath()
+    public function getPublicPath(): string
     {
         $directory = $this->config['paths']['directory'];
 
@@ -90,7 +90,7 @@ class Asset
      *
      * @return string
      */
-    public function getRelativePath()
+    public function getRelativePath(): string
     {
         $public = $this->config['directories']['public'];
 
@@ -104,7 +104,7 @@ class Asset
      *
      * @return boolean
      */
-    public function fileExists($file)
+    public function fileExists($file): bool
     {
         return file_exists($file);
     }
@@ -114,7 +114,7 @@ class Asset
      *
      * @return string
      */
-    public function getFile()
+    public function getFile(): string
     {
         return $this->file;
     }
@@ -126,7 +126,7 @@ class Asset
      *
      * @return self
      */
-    public function setFile($file)
+    public function setFile($file): self
     {
         $this->file = $file;
 

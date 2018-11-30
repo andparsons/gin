@@ -9,7 +9,7 @@ interface ConfigInterface
      *
      * @return array
      */
-    public function all();
+    public function all(): array;
 
     /**
      * Get the specified configuration value.
@@ -19,7 +19,7 @@ interface ConfigInterface
      *
      * @return mixed
      */
-    public function get($key, $default);
+    public function get(string $key, $default);
 
     /**
      * Set a given configuration value.
@@ -38,5 +38,5 @@ interface ConfigInterface
      *
      * @return bool
      */
-    public function has($key);
+    public function has(string $key): bool;
 }
